@@ -5,6 +5,7 @@
 
     <!-- AOP -->
     <bean id="beforeLogging" class="com.example.demo.spring.aop.BeforeLoggingModule" />
+    <bean id="afterLogging" class="com.example.demo.spring.aop.AfterLoggingModule" />
 
     <!-- AOP Proxy -->
     <bean id="engineProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
@@ -14,8 +15,8 @@
             <list>
                 <!--<value>caching</value>-->
 
-                <value>beforeLogging</value>
-                <!--<value>afterLogging</value>-->
+                <!--<value>beforeLogging</value>-->
+                <value>afterLogging</value>
                 <!--<value>aroundLogging</value>-->
                 <!--<value>throwsLogging</value>-->
                 <!--<value>caching</value>-->
