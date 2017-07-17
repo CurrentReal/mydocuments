@@ -76,4 +76,8 @@ public class MySearchEngine implements SearchEngine {
 
         return result;
     }
+
+    public List<Document> findByLocation(String location) {
+        throw new UnsupportedOperationException("findByLocation not yet implemented.");
+    }
 }

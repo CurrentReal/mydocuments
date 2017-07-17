@@ -14,14 +14,47 @@ import java.util.List;
 /**
  * Created by Hyunjin on 2017-07-14.
  */
+//public class SearchEngineService implements SearchEngine {
+//
+//    private static final Logger log = LoggerFactory.getLogger(SearchEngineService.class);
+//    private DocumentDAO documentDAO;
+//
+//    public SearchEngineService() {
+//        if (log.isDebugEnabled())
+//            log.debug("SearchEngineService created: " + this);
+//    }
+//
+//    public DocumentDAO getDocumentDAO() {
+//        return documentDAO;
+//    }
+//
+//    public void setDocumentDAO(DocumentDAO documentDAO) {
+//        if (log.isDebugEnabled())
+//            log.debug("Document DAO set: " + documentDAO);
+//
+//        this.documentDAO = documentDAO;
+//    }
+//
+//    public List<Document> findByType(Type documentType) {
+//        List<Document> result = new ArrayList<Document>();
+//        for (Document doc : listAll()) {
+//            if (doc.getType().getName().equals(documentType.getName()))
+//                result.add(doc);
+//        }
+//        return result;
+//    }
+//
+//    public List<Document> listAll() {
+//        return Arrays.asList(documentDAO.getAll());
+//    }
+//
+//}
+
 public class SearchEngineService implements SearchEngine {
 
-    private static final Logger log = LoggerFactory.getLogger(SearchEngineService.class);
     private DocumentDAO documentDAO;
 
     public SearchEngineService() {
-        if (log.isDebugEnabled())
-            log.debug("SearchEngineService created: " + this);
     }
 
     public DocumentDAO getDocumentDAO() {
@@ -29,14 +62,11 @@ public class SearchEngineService implements SearchEngine {
     }
 
     public void setDocumentDAO(DocumentDAO documentDAO) {
-        if (log.isDebugEnabled())
-            log.debug("Document DAO set: " + documentDAO);
-
         this.documentDAO = documentDAO;
     }
 
     public List<Document> findByType(Type documentType) {
-        List<Document> result = new ArrayList<Document>();
+        List<Document>  result = new ArrayList<Document>();
         for (Document doc : listAll()) {
             if (doc.getType().getName().equals(documentType.getName()))
                 result.add(doc);
@@ -45,7 +75,13 @@ public class SearchEngineService implements SearchEngine {
     }
 
     public List<Document> listAll() {
-        return Arrays.asList(documentDAO.getAll());
+        List<Document> result = Arrays.asList(documentDAO.getAll());
+        return result;
+    }
+
+    public List<Document> findByLocation(String location) {
+        throw new UnsupportedOperationException("findByLocation not yet implemented.");
     }
 
 }
+

@@ -9,6 +9,10 @@ import java.util.List;
  * Created by Hyunjin on 2017-07-14.
  */
 public interface SearchEngine {
+
     public List<Document> findByType(Type documentType);
+
     public List<Document> listAll();
+
+    public List<Document> findByLocation(String location);
 }
