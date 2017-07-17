@@ -7,6 +7,8 @@
     <bean id="beforeLogging" class="com.example.demo.spring.aop.BeforeLoggingModule" />
     <bean id="afterLogging" class="com.example.demo.spring.aop.AfterLoggingModule" />
     <bean id="aroundLogging" class="com.example.demo.spring.aop.AroundLoggingModule" />
+    <bean id="throwsLogging" class="com.example.demo.spring.aop.ThrowsLoggingModule" />
+    <bean id="caching" class="com.example.demo.spring.aop.CachingModule" />
 
     <!-- AOP Proxy -->
     <bean id="engineProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
@@ -14,13 +16,12 @@
         <property name="target" ref="engine" />
         <property name="interceptorNames">
             <list>
-                <!--<value>caching</value>-->
 
                 <!--<value>beforeLogging</value>-->
                 <!--<value>afterLogging</value>-->
-                <value>aroundLogging</value>
+                <!--<value>aroundLogging</value>-->
                 <!--<value>throwsLogging</value>-->
-                <!--<value>caching</value>-->
+                <value>caching</value>
 
             </list>
         </property>

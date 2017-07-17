@@ -55,23 +55,23 @@ public class MyDocumentsAOPTest {
         }
     }
 
-//    @Test
-//    public void testUsingSpringAOPCaching() {
-//        log.debug("Testing Caching Module...");
-//
-//        List<Document> documents = engineProxy.findByType(webType);
-//        assertNotNull(documents);
-//        int count = documents.size();
-//
-//        log.debug("It should be now cached!");
-//        documents = engineProxy.findByType(webType);
-//        assertNotNull(documents);
-//        assertEquals(count, documents.size());
-//
-//        log.debug("It should be now cached!");
-//        documents = engineProxy.findByType(webType);
-//        assertNotNull(documents);
-//        assertEquals(count, documents.size());
-//    }
+    @Test
+    public void testUsingSpringAOPCaching() {
+        log.debug("Testing Caching Module...");
+
+        List<Document> documents = engineProxy.findByType(webType);
+        assertNotNull(documents);
+        int count = documents.size();
+
+        log.debug("It should be now cached!");
+        documents = engineProxy.findByType(webType);
+        assertNotNull(documents);
+        assertEquals(count, documents.size());
+
+        log.debug("It should be now cached!");
+        documents = engineProxy.findByType(webType);
+        assertNotNull(documents);
+        assertEquals(count, documents.size());
+    }
 
 }
