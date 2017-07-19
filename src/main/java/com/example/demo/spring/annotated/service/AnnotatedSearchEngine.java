@@ -44,7 +44,10 @@ public class AnnotatedSearchEngine implements SearchEngine {
     }
 
     public List<Document> listAll() {
-        return Arrays.asList(documentDAO.getAll());
+        List<Document> result = documentDAO.getAll();
+        return result;
+        //////// before Chapter 9
+//        return Arrays.asList(documentDAO.getAll());
     }
 
     public List<Document> findByLocation(String location) {

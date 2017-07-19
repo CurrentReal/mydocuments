@@ -75,7 +75,9 @@ public class SearchEngineService implements SearchEngine {
     }
 
     public List<Document> listAll() {
-        List<Document> result = Arrays.asList(documentDAO.getAll());
+        List<Document> result = documentDAO.getAll();
+        ////////// before Chapter 9
+//        List<Document> result = Arrays.asList(documentDAO.getAll());
         return result;
     }
 
