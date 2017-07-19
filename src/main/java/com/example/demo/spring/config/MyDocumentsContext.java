@@ -98,8 +98,11 @@ public class MyDocumentsContext {
 
     private DocumentDAO documentDAO() {
         DocumentRepository documentDAO = new DocumentRepository();
-        documentDAO.setDocuments(new ArrayList<Document>(documents.values()));
         return documentDAO;
+        ////// before Chapter 9
+//        DocumentRepository documentDAO = new DocumentRepository();
+//        documentDAO.setDocuments(new ArrayList<Document>(documents.values()));
+//        return documentDAO;
     }
 
 //    private DocumentDAO documentDAO() {
