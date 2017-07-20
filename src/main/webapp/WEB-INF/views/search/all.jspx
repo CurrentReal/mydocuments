@@ -11,12 +11,12 @@
 <!--<spring:message code="search.type" var="type" />-->
 <!--<spring:message code="search.location" var="location" />-->
 <head>
-    <!--<title>${title}</title>-->
-    <title>My Documents</title>
+    <title>${title}</title>
+    <!--<title>My Documents</title>-->
 </head>
 <body style="font-family: verdana;">
-<!--<h2>${subtitle}</h2>-->
-<h2>My Documents - Search</h2>
+<h2>${subtitle}</h2>
+<!--<h2>My Documents - Search</h2>-->
 <c:if test="${not empty docs}">
     <table>
         <tbody>
@@ -26,18 +26,18 @@
                     <table>
                         <tbody>
                         <tr>
-                            <!--<td align="right">${name}</td>-->
-                            <td align="right">Name:</td>
+                            <td align="right">${name}</td>
+                            <!--<td align="right">Name:</td>-->
                             <td>${doc.name}</td>
                         </tr>
                         <tr>
-                            <!--<td align="right">${type}</td>-->
-                            <td align="right">Type:</td>
+                            <td align="right">${type}</td>
+                            <!--<td align="right">Type:</td>-->
                             <td>${doc.type.name}</td>
                         </tr>
                         <tr>
-                            <!--<td align="right">${location}</td>-->
-                            <td align="right">Location</td>
+                            <td align="right">${location}</td>
+                            <!--<td align="right">Location</td>-->
                             <td>${doc.location}</td>
                         </tr>
                         </tbody>
