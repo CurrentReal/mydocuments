@@ -29,4 +29,10 @@ public class DocumentJdbcTemplateRepository implements DocumentDAO {
         return jdbcTemplate.query(query, new DocumentRowMapper());
     }
 
+    public void save(Document document) { }
+
+    @Override
+    public Document findById(String id) {
+        return null;
+    }
 }
