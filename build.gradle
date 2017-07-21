@@ -10,9 +10,22 @@ buildscript {
 	}
 }
 
+buildscript {
+	repositories {
+		maven {
+			url "https://plugins.gradle.org/m2/"
+		}
+	}
+	dependencies {
+		classpath "gradle.plugin.org.akhikhl.gretty:gretty:2.0.0"
+	}
+}
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'war'
+apply plugin: "org.akhikhl.gretty"
 
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
@@ -27,9 +40,21 @@ dependencies {
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile("junit:junit:4.12")
 
+	compile("org.springframework:spring-webmvc:4.3.9.RELEASE")
+	compile("org.springframework:spring-jms:4.3.9.RELEASE")
+	compile("javax.jms:jms-api:1.1-rev-1")
+	compile("com.thoughtworks.xstream:xstream:1.4.10")
+	compile("org.springframework.amqp:spring-rabbit:1.7.3.RELEASE")
+
+	runtime("jstl:jstl:1.2")
 	runtime("org.aspectj:aspectjweaver:1.8.10")
 	runtime("hsqldb:hsqldb:1.8.0.10")
+	runtime("org.apache.activemq:activemq-core:5.7.0")
+
 	compile group: 'org.springframework', name: 'spring-jdbc', version: '4.3.9.RELEASE'
+	compile group: 'jstl', name: 'jstl', version: '1.2'
+	compile group: 'org.eclipse.jetty', name: 'jetty-server', version: '9.4.6.v20170531'
+	compile group: 'javax.servlet', name: 'jstl', version: '1.2'
 }
 
 test {
