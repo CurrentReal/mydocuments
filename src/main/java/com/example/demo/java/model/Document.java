@@ -6,7 +6,6 @@ import java.util.Date;
  * Created by Hyunjin on 2017-07-14.
  */
 public class Document {
-
     private String documentId;
     private String name;
     private Type type;
@@ -71,11 +70,11 @@ public class Document {
         this.modified = modified;
     }
 
-    public String toString() {
-        StringBuilder builder = new StringBuilder("Documents(");
+    public String toString(){
+        StringBuilder builder = new StringBuilder("Document(");
         builder.append("id: ");
         builder.append(documentId);
-        builder.append("name: ");
+        builder.append(", name: ");
         builder.append(name);
         builder.append(", type: ");
         builder.append(type);
@@ -84,5 +83,4 @@ public class Document {
         builder.append(")");
         return builder.toString();
     }
-
 }

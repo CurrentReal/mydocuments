@@ -26,8 +26,9 @@ public class LoginService implements Login {
         this.password = password;
     }
 
-    public boolean isAuthorized(String email, String pass) {
-        if (username.equals(email) && password.equals(pass))
+
+    public boolean isAuthorized(String email, String pass){
+        if(username.equals(email) && password.equals(pass))
             return true;
         return false;
     }

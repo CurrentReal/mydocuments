@@ -9,8 +9,6 @@ import java.util.List;
  */
 public interface DocumentDAO {
     public List<Document> getAll();
+    public void save(Document document);
+    public Document findById(String id);
 }
-
-//public interface DocumentDAO {
-//    public Document[] getAll();
-//}

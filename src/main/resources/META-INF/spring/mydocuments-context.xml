@@ -1,93 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:jms="http://www.springframework.org/schema/jms" xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
 
-    <!--<bean id="engine" class="com.example.demo.java.service.MySearchEngine" />
-    <bean id="documentType" class="com.example.demo.java.model.Type">
-        <property name="name" value="WEB" />
-        <property name="desc" value="Web Link" />
-        <property name="extension" value=".url" />
-    </bean>-->
-    <bean id="engine" class="com.example.demo.spring.service.SearchEngineService" scope="prototype">
-        <property name="documentDAO" ref="documentDAO" />
+    <context:component-scan base-package="com.example.demo.spring" />
+
+    <!-- ActiveMQ -->
+    <bean id="activemqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory"
+          p:brokerURL="tcp://localhost:61616" />
+
+    <!-- JMS Template -->
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <constructor-arg name="connectionFactory" ref="activemqConnectionFactory" />
+        <property name="defaultDestinationName" value="mydocumentsQueue" />
     </bean>
 
-    <!--<bean id="documentDAO" class="com.example.demo.spring.data.DocumentRepository" scope="prototype">-->
-        <!--<property name="doc1" ref="doc1" />-->
-        <!--<property name="doc2" ref="doc2" />-->
-        <!--<property name="doc3" ref="doc3" />-->
-        <!--<property name="doc4" ref="doc4" />-->
-    <!--</bean>-->
-    <bean id="documentDAO" class="com.example.demo.spring.data.DocumentRepository" scope="prototype">
-        <property name="documents">
-            <list>
-                <ref bean="doc1" />
-                <ref bean="doc2" />
-                <ref bean="doc3" />
-                <ref bean="doc4" />
-            </list>
-        </property>
+    <!-- JMS Listener -->
+    <jms:listener-container connection-factory="activemqConnectionFactory"
+                            acknowledge="auto" container-type="default">
+        <jms:listener destination="mydocumentsQueue" ref="JMSConsumer"
+                      method="onMessage" />
+    </jms:listener-container>
+
+    <!-- RabbitMQ -->
+    <rabbit:connection-factory id="rabbitConnectionFactory" host="localhost" />
+    <rabbit:admin connection-factory="rabbitConnectionFactory" />
+    <rabbit:template id="rabbitTemplate" connection-factory="rabbitConnectionFactory" routing-key="mydocumentsQueue" />
+    <rabbit:listener-container connection-factory="rabbitConnectionFactory">
+        <rabbit:listener ref="rabbitmqConsumer" queues="mydocumentsQueue" />
+    </rabbit:listener-container>
+    <rabbit:queue name="mydocumentsQueue" />
+
+    <!-- JDBC -->
+    <jdbc:embedded-database id="dataSource">
+        <jdbc:script location="classpath:/META-INF/data/SQL/schema.sql" />
+        <jdbc:script location="classpath:/META-INF/data/SQL/data.sql" />
+    </jdbc:embedded-database>
+
+    <bean id="query" class="java.lang.String">
+        <constructor-arg>
+            <value>
+                select d.documentId, d.name, d.location, d.description as doc_desc,
+                d.typeId, d.created, d.modified,
+                t.name as type_name, t.description as type_desc, t.extension from
+                documents d
+                join types t
+                on d.typeId = t.typeId
+            </value>
+        </constructor-arg>
     </bean>
 
-    <bean id="typeDAO" class="com.example.demo.spring.data.TypeDataRepository">
-        <property name="types">
-            <map>
-                <entry key="webType" value-ref="webType" />
-                <entry key="pdfType" value-ref="pdfType" />
-                <entry key="noteType" value-ref="noteType" />
-            </map>
-        </property>
+    <bean id="find" class="java.lang.String">
+        <constructor-arg>
+            <value>
+                select d.documentId, d.name, d.location, d.description as doc_desc,
+                d.typeId, d.created, d.modified,
+                t.name as type_name, t.description as type_desc, t.extension from
+                documents d
+                join types t
+                on d.typeId = t.typeId
+                where d.documentId = ?
+            </value>
+        </constructor-arg>
     </bean>
 
-    <bean id="doc1" class="com.example.demo.java.model.Document">
-        <property name="name" value="Book Template" />
-        <property name="type" ref="pdfType" />
-        <property name="location" value="/User/feliepg/Documents/Random/Book Template.pdf" />
+    <bean id="insert" class="java.lang.String">
+        <constructor-arg>
+            <value>
+                insert into documents (documentId,name,location,description, typeId, created, modified)
+                values (?,?,?,?,?,?,?)
+            </value>
+        </constructor-arg>
     </bean>
 
-    <bean id="doc2" class="com.example.demo.java.model.Document">
-        <property name="name" value="Sample Contract" />
-        <property name="type">
-            <bean id="pdfType" class="com.example.demo.java.model.Type">
-                <property name="name" value="PDF" />
-                <property name="desc" value="Portable Document Format" />
-                <property name="extension" value=".pdf" />
-            </bean>
-        </property>
-        <property name="location" value="/User/feliepg/Documents/Contracts/Sample Contract.pdf" />
-    </bean>
-
-
-    <bean id="doc3" class="com.example.demo.java.model.Document">
-        <property name="name" value="Clustering with RabbitMQ" />
-        <property name="type" ref="noteType" />
-        <property name="location" value="/User/feliepg/Documents/Random/Clustering with RabbitMQ.txt" />
-    </bean>
-
-
-    <bean id="doc4" class="com.example.demo.java.model.Document">
-        <property name="name" value="Pro Spring Security Book" />
-        <property name="type" ref="webType" />
-        <property name="location" value="http://www.apress.com/9781430248187" />
-    </bean>
-
-    <bean id="webType" class="com.example.demo.java.model.Type">
-        <property name="name" value="WEB" />
-        <property name="desc" value="Web Link" />
-        <property name="extension" value=".url" />
-    </bean>
-
-    <bean id="pdfType" class="com.example.demo.java.model.Type">
-        <property name="name" value="PDF" />
-        <property name="desc" value="Portable Document Format" />
-        <property name="extension" value=".pdf" />
-    </bean>
-
-    <bean id="noteType" class="com.example.demo.java.model.Type">
-        <property name="name" value="NOTE" />
-        <property name="desc" value="Text Notes" />
-        <property name="extension" value=".txt" />
+    <bean id="update" class="java.lang.String">
+        <constructor-arg>
+            <value>
+                update documents
+                set name = ?,
+                location = ?,
+                description = ?,
+                typeId = ?,
+                modified = ?
+                where documentId = ?
+            </value>
+        </constructor-arg>
     </bean>
 
 </beans>
